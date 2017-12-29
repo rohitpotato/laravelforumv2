@@ -1,0 +1,51 @@
+<template>
+	
+	<li class="dropdown">
+			
+		<a href="" class="dropdown-toggle" data-toggle = "dropdown">Notifications</a>
+
+
+
+		<ul class="dropdown-menu">
+			
+			<li v-for="notification in notifications">
+					
+				<a :href="notification.data.link" v-text = "notification.data.message" @click	="markAsRead(notification)"></a>
+
+			</li>
+		
+		</ul>
+
+	</li>
+
+
+
+</template>
+
+
+<script>
+	
+	export default {
+
+		data() {
+
+			return { notifications: false}
+		},
+
+		created() {
+
+			axios.get("http://localhost/forums/public/profiles/" + window.App.user.name + "/notifications")
+
+				.then(response => this.notifications = response.data);
+		},
+
+		methods: {
+
+			markAsRead(notification) {
+
+				axios.delete("http://localhost/forums/public/profiles/" + window.App.user.name + "/notifications/" + notification.id)
+			}
+		}
+	}
+
+</script>
